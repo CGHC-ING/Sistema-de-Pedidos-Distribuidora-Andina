@@ -1,0 +1,10 @@
+# Variables de entorno con valores reales
+.env
+
+# Editores y sistema
+.idea/
+.vscode/
+*.log
+.DS_Store
+Thumbs.db
+~$*
