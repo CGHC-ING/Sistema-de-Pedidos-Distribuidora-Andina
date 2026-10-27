@@ -14,10 +14,12 @@ services:
     container_name: mysql_db
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: 123456
-      MYSQL_DATABASE: andina
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
     ports:
-      - 3307:3306
+      - ${DB_PORT}:3306
     volumes:
       - ./db/init:/docker-entrypoint-initdb.d
       - data:/var/lib/mysql
