@@ -20,10 +20,9 @@ class conexion
     public function conectar()
     {
         try {
-            $conexion = new PDO($this->dns,$this->user,$this->password);
-            return 1;
+            return new PDO($this->dns,$this->user,$this->password);
         } catch (PDOException $e) {
-            return $e->getMessage();
+            return 0;
         }
     }
 
