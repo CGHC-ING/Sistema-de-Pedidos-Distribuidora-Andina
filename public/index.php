@@ -28,7 +28,7 @@ if(isset($_GET['url'])){
     }
 }else{
     if(isset($_SESSION['user'])){
-        require_once __DIR__ . '/includes/inicio.php';
+        header("Location:/inicio");
     }else{
         require_once __DIR__ . '/login.php';
     }
