@@ -14,6 +14,7 @@ class clientesController
     {
         $data = new ciudades();
         $ciudades = $data->listado();
+        $action = '/clientes/registrar';
         require_once __DIR__ . '/vistas/formularios/clientesForm.php';
     }
     public function registrar()
@@ -28,6 +29,7 @@ class clientesController
     public function editar()
     {
         $id = $_POST['id'];
+        $action = '/clientes/modificar';
         if(is_numeric($id)){
             $data = new ciudades();
             $ciudades = $data->listado();
@@ -36,6 +38,20 @@ class clientesController
             require_once __DIR__ . '/vistas/formularios/clientesForm.php';
         }
 
+    }
+
+    public function modificar()
+    {
+        $id = $_POST['id'];
+        if(is_numeric($id)){
+            $data = new clientes();
+            $info = $data->buscar($id);
+            if(!empty($info)){
+                $data->modificarInformacion($_POST);
+            }
+            header("Location:/clientes/listado");
+
+        }
     }
 
     public function cambiarEstado()

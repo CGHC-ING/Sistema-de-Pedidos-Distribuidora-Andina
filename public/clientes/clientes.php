@@ -75,8 +75,34 @@ class clientes
             return $resultados;
         }
     }
-    public function modificar()
+    public function modificarInformacion($data)
     {
+        $this->id = $data['id'];
+        $this->nit = $data['nit'];
+        $this->razon_social = $data['razon'];
+        $this->tipo = $data['tipo'];
+        $this->cupo_credito = $data['cupo'];
+        $this->ciudad_id = $data['ciudad'];
+        $this->activo = 1;
+        $db = $this->conexion->conectar();
+        $sql = "UPDATE clientes SET ciudad_id = :ciudad ,nit = :nit ,razon_social = :razon ,tipo = :tipo ,cupo_credito = :cupo WHERE id = :id";
+        if($db != 0){
+            $ejecutar = $db->prepare($sql);
+            $ejecutar->execute([
+                'ciudad' =>  $this->ciudad_id,
+                'nit'  =>  $this->nit,
+                'razon'   => $this->razon_social,
+                'tipo' => $this->tipo,
+                'cupo' => $this->cupo_credito,
+                'id' => $this->id
+            ]);
+            if($ejecutar->rowCount() > 0){
+                return 1;
+            }else{
+                return 0;
+            }
+        }
+
 
     }
 

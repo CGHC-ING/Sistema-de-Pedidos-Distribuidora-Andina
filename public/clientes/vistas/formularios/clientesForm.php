@@ -4,7 +4,7 @@ require_once ('includes/plantilla/header/header.html');
 <body>
     <div class="d-flex justify-content-center align-items-center min-vh-100">
         <div class="container shadow p-4 mb-5 bg-body rounded">
-            <form action="/clientes/registrar" method="post">
+            <form action="<?php echo (isset($action)) ?  $action : '';?>" method="post">
                 <div class="col-md-4">
                     <label for="inputNit" class="form-label" required>Nit <span style="color: red;">*</span></label>
                     <input type="text" required name="nit" class="form-control" value="<?php echo (isset($info['nit'])) ?  $info['nit'] : '';?>">
@@ -47,6 +47,11 @@ require_once ('includes/plantilla/header/header.html');
                     </select>
                 </div>
                 <div>&nbsp;</div>
+                <?php
+                if(isset($info['id'])){
+                    echo "<input type='hidden' name='id' value='".$info['id']."'>";
+                }
+                ?>
                 <div class="col-md-12">
                     <input type="submit" class="btn btn-primary" value="Registrar">
                 </div>
