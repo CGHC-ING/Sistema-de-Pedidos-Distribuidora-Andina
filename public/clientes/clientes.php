@@ -68,8 +68,7 @@ class clientes
                 'id' =>  $this->id,
             ]);
             $resultados = $ejecutar->fetch(PDO::FETCH_ASSOC);
-            $total = count($resultados);
-            if($total == 0){
+            if(empty($resultados)){
                 return 0;
             }
             return $resultados;
@@ -124,5 +123,25 @@ class clientes
                 return 0;
             }
         }
+    }
+
+    public function validarNit($nit)
+    {
+        $this->nit = $nit;
+        $sql = "SELECT nit FROM clientes WHERE nit = :nit";
+        $db = $this->conexion->conectar();
+        if($db != 0){
+            $ejecutar = $db->prepare($sql);
+            $ejecutar->execute([
+                'nit' =>  $this->nit,
+            ]);
+            $resultados = $ejecutar->fetch(PDO::FETCH_ASSOC);
+            if(empty($resultados)){
+                return 1;
+            }else{
+                return 0;
+            }
+        }
+
     }
 }

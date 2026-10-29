@@ -10,7 +10,7 @@ require_once ('includes/plantilla/header/header.html');
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-                    <a class="navbar-brand" href="#">Hidden brand</a>
+                    <a class="navbar-brand" href="#"><?php echo "Bienvenido " .$_SESSION['user']['nombre'] ?></a>
                     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                         <li class="nav-item <?php echo (isset($cliActive)) ? 'active' : ''; ?>">
                             <a class="nav-link" href="/clientes/listado">Clientes <span class="sr-only">(current)</span></a>
@@ -29,6 +29,11 @@ require_once ('includes/plantilla/header/header.html');
                         <?php if(isset($_SESSION['admin'])){?>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">Ventas del Mes</a>
+                            </li>
+                        <?php } ?>
+                        <?php if(isset($_SESSION['admin'])){?>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/usuarios/crear">Crear Usuarios</a>
                             </li>
                         <?php } ?>
                     </ul>

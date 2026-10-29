@@ -6,10 +6,18 @@ require_once ('includes/plantilla/header/header.html');
         <div class="container">
             <div class="card">
                 <div class="card-header">
-                        <h4>Por favor ingrese su correo y su contraseña para acceder</h4>
+                    <h4>Por favor ingrese su correo y su contraseña para acceder</h4>
                 </div>
                 <div class="card-body">
                     <form action="usuarios/ingresar" method="post">
+                        <?php
+                        if(isset($_SESSION['error'])){
+                            echo '<div class="alert alert-danger" role="alert">
+                                    '.$_SESSION['error'].'
+                                </div>';
+                            unset($_SESSION['error']);
+                        }
+                        ?>
                         <div class="form-group">
                             <label for="exampleInputEmail1">Correo:</label>
                             <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp">

@@ -11,8 +11,23 @@ require_once ('includes/plantilla/menu/menu.php');
         <?php } ?>
     </div>
     <div>&nbsp;</div>
+    <?php
+        if(isset($_SESSION['error'])){
+            echo '<div class="alert alert-danger" role="alert">
+                    '.$_SESSION['error'].'
+                </div>';
+            unset($_SESSION['error']);
+        }
+        if(isset($_SESSION['confirmar'])){
+            echo '<div class="alert alert-success" role="alert">
+                    '.$_SESSION['confirmar'].'
+                </div>';
+            unset($_SESSION['confirmar']);
+        }
+    ?>
+    <div>&nbsp;</div>
 </div>
-<table class="table">
+<table class="table" id="tablaProductos">
     <thead>
         <tr>
             <th scope="col">#</th>
@@ -42,7 +57,11 @@ require_once ('includes/plantilla/menu/menu.php');
                         echo "<td>".$producto['nombre']."</td>";
                         echo "<td>".$producto['categoria']."</td>";
                         echo "<td>".$producto['precio']."</td>";
-                        echo "<td>".$producto['exento_iva']."</td>";
+                        if($producto['exento_iva'] == 1){
+                            echo "<td>SI</td>";
+                        }else if($producto['exento_iva'] == 2){
+                            echo "<td>NO</td>";
+                        }
                         echo "<td>".$producto['stock']."</td>";
                         echo "<td>".$producto['stock_minimo']."</td>";
                         if(isset($_SESSION['admin'])){
@@ -64,7 +83,9 @@ require_once ('includes/plantilla/menu/menu.php');
         ?>
     </tbody>
 </table>
-
+<script>
+    new DataTable('#tablaProductos');
+</script>
 <?php
 require_once ('includes/plantilla/footer/footer.html');
 ?>

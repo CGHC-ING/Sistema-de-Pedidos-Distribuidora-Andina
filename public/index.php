@@ -16,7 +16,8 @@ if(isset($_GET['url'])){
         } 
         else{
             if($conteoPartes > 2){
-                require_once __DIR__ . '/includes/error.php';
+                http_response_code(404);
+                require_once __DIR__ . '/includes/plantilla/error404.html';
             }else{
                 if(isset($_SESSION['user'])){
                     require_once __DIR__ . '/includes/inicio.php';

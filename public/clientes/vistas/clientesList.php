@@ -11,6 +11,21 @@ require_once ('includes/plantilla/menu/menu.php');
         <?php } ?>
     </div>
     <div>&nbsp;</div>
+    <?php
+        if(isset($_SESSION['error'])){
+            echo '<div class="alert alert-danger" role="alert">
+                    '.$_SESSION['error'].'
+                </div>';
+            unset($_SESSION['error']);
+        }
+        if(isset($_SESSION['confirmar'])){
+            echo '<div class="alert alert-success" role="alert">
+                    '.$_SESSION['confirmar'].'
+                </div>';
+            unset($_SESSION['confirmar']);
+        }
+    ?>
+    <div>&nbsp;</div>
 </div>
 <table class="table">
     <thead>
@@ -31,7 +46,7 @@ require_once ('includes/plantilla/menu/menu.php');
     </thead>
     <tbody>
         <?php
-            if(isset($clientes)){
+            if(isset($clientes) && !empty($clientes)){
                 $cont = 1;
                 foreach ($clientes as $key => $cliente) {
                     echo "<tr>";
@@ -54,6 +69,8 @@ require_once ('includes/plantilla/menu/menu.php');
                         $cont++;
                     echo "</tr>";
                 }
+            }else{
+                echo '<tr><td colspan=6>No hay clientes registrados en el sistema</td></tr>';
             }
         ?>
     </tbody>

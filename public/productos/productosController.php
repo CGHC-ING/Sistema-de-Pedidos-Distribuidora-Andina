@@ -20,73 +20,111 @@ class productosController
     }
     public function crear()
     {
-        $data = new categorias();
-        $categorias = $data->listado();
-        $proActive = "active";
-        $action = '/productos/registrar';
-        require_once __DIR__ . '/vistas/formularios/productosForm.php';
+        if(isset($_SESSION['admin'])){
+            $data = new categorias();
+            $categorias = $data->listado();
+            $proActive = "active";
+            $action = '/productos/registrar';
+            require_once __DIR__ . '/vistas/formularios/productosForm.php';
+        }else{
+            http_response_code(403);
+            require_once 'includes/plantilla/error403.html';
+        }
     }
     public function registrar()
     {
-        if(isset($_POST)){
-            $producto = new productos();
-            $ultimoRegistro = $producto->guardar($_POST);
-            if(!empty($ultimoRegistro) && $ultimoRegistro != 0){
-                $data['cantidad'] = $_POST['stock'];
-                $data['user'] = $_SESSION['user']['id'];
-                $data['tipo'] = 'entrada';
-                $data['producto'] = $ultimoRegistro;
-                $inventario = new movimientoInventario();
-                $proceso = $inventario->guardar($data);
-                if($proceso){
-                    //Mensajes de confirmacion
+        if(isset($_SESSION['admin'])){
+            if(isset($_POST)){
+                $producto = new productos();
+                $ultimoRegistro = $producto->guardar($_POST);
+                if(!empty($ultimoRegistro) && $ultimoRegistro != 0){
+                    $data['cantidad'] = $_POST['stock'];
+                    $data['user'] = $_SESSION['user']['id'];
+                    $data['tipo'] = 'entrada';
+                    $data['producto'] = $ultimoRegistro;
+                    $inventario = new movimientoInventario();
+                    $proceso = $inventario->guardar($data);
+                    if(empty($proceso)){
+                        $_SESSION['error'] = 'No se pudo realizar la insercion del registro';
+                    }else{
+                        $_SESSION['confirmar'] = 'Se ha creado correctamente el registro';
+                    }
                 }
+                header("Location:/productos/listado");
+                exit();    
             }
-            header("Location:/productos/listado");    
+        }else {
+            http_response_code(403);
+            require_once 'includes/plantilla/error403.html';
         }
     }
 
     public function editar()
     {
-        $id = $_POST['id'];
-        $proActive = "active";
-        $action = '/productos/modificar';
-        if(is_numeric($id)){
-            $data = new categorias();
-            $categorias = $data->listado();
-            $data = new productos();
-            $info = $data->buscar($id); 
-            require_once __DIR__ . '/vistas/formularios/productosForm.php';
+        if(isset($_SESSION['admin'])){
+            $id = $_POST['id'];
+            $proActive = "active";
+            $action = '/productos/modificar';
+            if(is_numeric($id)){
+                $data = new categorias();
+                $categorias = $data->listado();
+                $data = new productos();
+                $info = $data->buscar($id); 
+                require_once __DIR__ . '/vistas/formularios/productosForm.php';
+            }
+        }else{
+            http_response_code(403);
+            require_once 'includes/plantilla/error403.html';
         }
 
     }
 
     public function modificar()
     {
-        $id = $_POST['id'];
-        if(is_numeric($id)){
-            $data = new productos();
-            $info = $data->buscar($id);
-            if(!empty($info)){
-                $data->modificarInformacion($_POST);
+        if(isset($_SESSION['admin'])){
+            $id = $_POST['id'];
+            if(is_numeric($id)){
+                $data = new productos();
+                $info = $data->buscar($id);
+                if(!empty($info)){
+                    $resultado = $data->modificarInformacion($_POST);
+                    if(empty($resultado)){
+                        $_SESSION['error'] = 'No se pudo realizar la actualización del registro';
+                    }else{
+                        $_SESSION['confirmar'] = 'Se ha modificado correctamente el registro';
+                    }
+                }
+                header("Location:/productos/listado");
+                exit();
             }
-            header("Location:/productos/listado");
-
+        }else{
+            http_response_code(403);
+            require_once 'includes/plantilla/error403.html';
         }
     }
 
     public function cambiarEstado()
     {
-        $estado = $_POST['estado'];
-        $id = $_POST['id'];
-        if(is_numeric($id)){
-            $data = new productos();
-            $info = $data->buscar($id);
-            if(!empty($info)){
-                $data->modificarEstado($id, $estado);
+        if(isset($_SESSION['admin'])){
+            $estado = $_POST['estado'];
+            $id = $_POST['id'];
+            if(is_numeric($id)){
+                $data = new productos();
+                $info = $data->buscar($id);
+                if(!empty($info)){
+                    $resultado = $data->modificarEstado($id, $estado);
+                    if(!empty($resultado)){
+                        $_SESSION['confirmar'] = 'Se ha cambiado el estado del registro';
+                    }else{
+                        $_SESSION['error'] = 'No se pudo realizar el cambio de estado al registro';
+                    }
+                }
+                header("Location:/productos/listado");
+                exit();
             }
-            header("Location:/productos/listado");
-
+        }else{
+            http_response_code(403);
+            require_once 'includes/plantilla/error403.html';
         }
     }
 

@@ -27,60 +27,99 @@ class clientesController
     }
     public function registrar()
     {
-        if(isset($_POST)){
-            $cliente = new clientes();
-            $cliente->guardar($_POST);
-            header("Location:/clientes/listado");    
+        if(isset($_SESSION['admin']) || isset($_SESSION['vendedor'])){
+            if(isset($_POST)){
+                $cliente = new clientes();
+                $validar = $cliente->validarNit($_POST['nit']);
+                if($validar){
+                    $resultado = $cliente->guardar($_POST);
+                    if(empty($resultado)){
+                        $_SESSION['error'] = 'No se ha podido crear el cliente';
+                    }
+                }else{
+                    $_SESSION['error'] = 'La empresa ya se ha registrado en el sistema';
+                }
+                header("Location:/clientes/listado");
+                exit();    
+            }else{
+                header("Location:/clientes/listado");
+                exit(); 
+            }
+        }else{
+            http_response_code(403);
+            require_once 'includes/plantilla/error403.html';
         }
     }
 
     public function editar()
     {
-        $id = $_POST['id'];
-        $cliActive = "active";
-        $action = '/clientes/modificar';
-        if(is_numeric($id)){
-            $data = new ciudades();
-            $ciudades = $data->listado();
-            $data = new clientes();
-            $info = $data->buscar($id); 
-            require_once __DIR__ . '/vistas/formularios/clientesForm.php';
+        if(isset($_SESSION['admin']) || isset($_SESSION['vendedor'])){
+            $id = $_POST['id'];
+            $cliActive = "active";
+            $action = '/clientes/modificar';
+            if(is_numeric($id)){
+                $data = new ciudades();
+                $ciudades = $data->listado();
+                $data = new clientes();
+                $info = $data->buscar($id); 
+                require_once __DIR__ . '/vistas/formularios/clientesForm.php';
+            }
+        }else{
+            http_response_code(403);
+            require_once 'includes/plantilla/error403.html';
         }
 
     }
 
     public function modificar()
     {
-        $id = $_POST['id'];
-        if(is_numeric($id)){
-            $data = new clientes();
-            $info = $data->buscar($id);
-            if(!empty($info)){
-                $data->modificarInformacion($_POST);
+        if(isset($_SESSION['admin']) || isset($_SESSION['vendedor'])){
+            $id = $_POST['id'];
+            if(is_numeric($id)){
+                $data = new clientes();
+                $info = $data->buscar($id);
+                if(!empty($info)){
+                    $resultado = $data->modificarInformacion($_POST);
+                    if(!empty($resultado)){
+                        $_SESSION['confirmar'] = 'Se ha modificado correctamente el registro';
+                    }else{
+                        $_SESSION['error'] = 'No se pudo realizar la actualización del registro';
+                    }
+                }else{
+                    $_SESSION['error'] = 'No se encontro el registro solicitado';
+                }
+                header("Location:/clientes/listado");
+                exit();
+            }else{
+                http_response_code(403);
+                require_once 'includes/plantilla/error403.html';
             }
-            header("Location:/clientes/listado");
-
         }
     }
 
     public function cambiarEstado()
     {
-        $estado = $_POST['estado'];
-        $id = $_POST['id'];
-        if(is_numeric($id)){
-            $data = new clientes();
-            $info = $data->buscar($id);
-            if(!empty($info)){
-                $data->modificarEstado($id, $estado);
+        if(isset($_SESSION['admin'])){
+            $estado = $_POST['estado'];
+            $id = $_POST['id'];
+            if(is_numeric($id)){
+                $data = new clientes();
+                $info = $data->buscar($id);
+                if(!empty($info)){
+                    $resultado = $data->modificarEstado($id, $estado);
+                    if(!empty($resultado)){
+                        $_SESSION['confirmar'] = 'Se ha cambiado el estado del registro';
+                    }else{
+                        $_SESSION['error'] = 'No se pudo realizar el cambio de estado al registro';
+                    }
+                }
+                header("Location:/clientes/listado");
+                exit();
             }
-            header("Location:/clientes/listado");
-
+        }else{
+            http_response_code(403);
+            require_once 'includes/plantilla/error403.html';
         }
-    }
-
-    public function validarCampos($data)
-    {
-
     }
 
 }

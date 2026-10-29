@@ -28,6 +28,16 @@ class UsuariosController
         if(isset($_POST)){
             $usuario = new Usuarios();
             $datos = $usuario->validarUsuario($_POST['email'], $_POST['password']);
+            if($datos == 0){
+                $_SESSION['error'] = "No hay usuarios registrados con esos datos";            
+                header("Location:/login");
+                exit();
+            }
+            if($datos == 2){
+                $_SESSION['error'] = "La contraseña no coincide con la información"; 
+                header("Location:/login");
+                exit();
+            }
             if(isset($datos)){
                 $_SESSION['user'] = $datos;
                 match ($datos['rol']) {
@@ -38,8 +48,6 @@ class UsuariosController
                 header("Location:/inicio");
                 exit();
             }
-            header("Location:/login");
-            exit();
         }
     }
 

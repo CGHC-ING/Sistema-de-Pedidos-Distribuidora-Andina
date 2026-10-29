@@ -55,8 +55,7 @@ class Usuarios
             ]);
 
             $resultado = $ejecutar->fetch(PDO::FETCH_ASSOC);
-            $total = count($resultado);
-            if($total == 0){
+            if(empty($resultado)){
                 return 0;
             }
             //verificar la contaseña indicada
@@ -64,7 +63,7 @@ class Usuarios
             if($validacion){
                 return $resultado;
             }else{
-                return 0;
+                return 2;
             }
         }
     }
