@@ -18,9 +18,13 @@ class movimientoInventario
 
     public function guardar($data)
     {
-        $this->producto_id = $data['id'];
+        $this->producto_id = $data['producto'];
         $this->usuario_id = $data['user'];
-        $this->pedido_id = $data['pedido'];
+        if(!isset($data['pedido'])){
+            $this->pedido_id = null;
+        }else{
+            $this->pedido_id = $data['pedido'];
+        }
         $this->tipo = $data['tipo'];
         $this->cantidad = $data['cantidad'];
         $this->creado_en = $this->crearFecha();

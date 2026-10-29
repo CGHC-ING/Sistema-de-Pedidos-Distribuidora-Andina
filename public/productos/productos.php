@@ -68,6 +68,25 @@ class productos
         }
     }
 
+    public function buscar($id)
+    {
+        $this->id = $id;
+        $sql = "SELECT * FROM productos WHERE id = :id";
+        $db = $this->conexion->conectar();
+        if($db != 0){
+            $ejecutar = $db->prepare($sql);
+            $ejecutar->execute([
+                'id' =>  $this->id,
+            ]);
+            $resultados = $ejecutar->fetch(PDO::FETCH_ASSOC);
+            $total = count($resultados);
+            if($total == 0){
+                return 0;
+            }
+            return $resultados;
+        }
+    }
+
     public function modificarInformacion($data)
     {
         $this->id = $data['id'];

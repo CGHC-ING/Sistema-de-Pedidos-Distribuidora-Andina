@@ -15,8 +15,8 @@ require_once ('includes/plantilla/header/header.html');
                         <li class="nav-item <?php echo (isset($cliActive)) ? 'active' : ''; ?>">
                             <a class="nav-link" href="/clientes/listado">Clientes <span class="sr-only">(current)</span></a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="productos/listado">Productos</a>
+                        <li class="nav-item <?php echo (isset($proActive)) ? 'active' : ''; ?>">
+                            <a class="nav-link" href="/productos/listado">Productos</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="pedidos/listado">Pedidos</a>

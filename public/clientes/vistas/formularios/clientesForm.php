@@ -9,7 +9,7 @@ require_once ('includes/plantilla/menu/menu.php');
     </div>
     <div class="col-md-4">
         <label for="inputRazon" class="form-label" required>Razon Social <span style="color: red;">*</span></label>
-        <input type="text" required name="razon" class="form-control" value="<?php echo  (isset($info['nit'])) ?  $info['razon_social'] : '';?>">
+        <input type="text" required name="razon" class="form-control" value="<?php echo  (isset($info['razon_social'])) ?  $info['razon_social'] : '';?>">
     </div>
     <div class="col-md-4">
         <label for="inputCupo" class="form-label" required>Cupo Credito <span style="color: red;">*</span></label>
