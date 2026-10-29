@@ -1,6 +1,4 @@
-
-INSERT INTO categorias (nombre) VALUES ('herramientas');
-INSERT INTO categorias (nombre) VALUES ('material eléctrico');
-INSERT INTO categorias (nombre) VALUES ('plomería');
-INSERT INTO categorias (nombre) VALUES ('aseo');
-
+INSERT INTO `categorias` VALUES (4,'aseo'),(1,'herramientas'),(2,'material eléctrico'),(3,'plomería');
+INSERT INTO `ciudades` VALUES (1,'Bogota'),(2,'Cali'),(3,'Medellin'),(4,'Cartagena'),(5,'Boyaca'),(6,'Bucaramanga'),(7,'Barranquilla'),(8,'Cucuta'),(9,'Pereira'),(10,'Santa Marta');
+INSERT INTO `clientes` VALUES (1,1,'830057186','Mundial De Tornillos S A','mayorista',200000000.00,1),(2,3,'8600166103','Interconexión Eléctrica S.A. E.S.P','mayorista',1000000.00,1),(3,2,'902088457','Distribuidora Stone Tools S.A.S.','minorista',5000.00,1),(4,3,'8909002663','CEMENTOS ARGOS S.A.','mayorista',200000000.00,1);
+INSERT INTO `usuarios` VALUES (1,'Adminisrador','admin@andina.co','$2y$04$qRXkoSiG1GVS6X.AMM4Hm.EmlQGylca/SeiW3Wm4VFghDaSYcZBA.','Admin',1),(2,'Vendedor','vendedor@andina.co','$2y$04$9QTj99sYep9ZwXNCR3ohAeBVgNkcoINH/ZGLc/rqYK4fgN79bh58m','Vendedor',1),(3,'Bodega','bodega@andina.co','$2y$04$Nui0dBsSXev8SkX8QcDRu.tF6c8mOCNu23gfpswqM7EqAGVmV2shS','Bodega',1);
