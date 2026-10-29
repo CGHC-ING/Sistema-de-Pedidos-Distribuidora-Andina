@@ -38,7 +38,36 @@ class Usuarios
                 echo "No se creo el regsitro";
             }
         }
-
     }
+
+    public function validarUsuario($email, $password)
+    {
+        $this->email = $email;
+        $this->password_hash = $password;
+        $this->activo = 1;
+        $sql = "SELECT id, password_hash ,nombre, rol FROM usuarios WHERE email = :email AND activo = :activo";
+        $db = $this->conexion->conectar();
+        if($db != 0){
+            $ejecutar = $db->prepare($sql);
+            $ejecutar->execute([
+                'email'  =>  $this->email,
+                'activo' =>  $this->activo
+            ]);
+
+            $resultado = $ejecutar->fetch(PDO::FETCH_ASSOC);
+            $total = count($resultado);
+            if($total == 0){
+                return 0;
+            }
+            //verificar la contaseña indicada
+            $validacion = password_verify($password, $resultado['password_hash']);
+            if($validacion){
+                return $resultado;
+            }else{
+                return 0;
+            }
+        }
+    }
+
 
 }

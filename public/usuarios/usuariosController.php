@@ -23,6 +23,43 @@ class UsuariosController
         }
     }
 
+    public function ingresar()
+    {
+        if(isset($_POST)){
+            $usuario = new Usuarios();
+            $datos = $usuario->validarUsuario($_POST['email'], $_POST['password']);
+            if(isset($datos)){
+                $_SESSION['user'] = $datos;
+                match ($datos['rol']) {
+                    'Admin'=> $_SESSION['admin'] = 1,
+                    'Vendedor'=> $_SESSION['vendedor'] = 1,
+                    'Bodega'=> $_SESSION['bodega'] = 1
+                };
+                header("Location:/inicio");
+                exit();
+            }
+            header("Location:/login");
+            exit();
+        }
+    }
+
+    public function cerrarIngreso()
+    {
+        if(isset($_SESSION['user'])){
+            unset($_SESSION['user']);
+        }
+        if(isset($_SESSION['admin'])){
+            unset($_SESSION['admin']);
+        }
+        if(isset($_SESSION['vendedor'])){
+            unset($_SESSION['vendedor']);
+        }
+        if(isset($_SESSION['bodega'])){
+            unset($_SESSION['bodega']);
+        }
+        header("Location:/");
+    }
+
     public function validarCampos($data)
     {
         $validacion = 1;
@@ -50,4 +87,5 @@ class UsuariosController
             return 0;
         }
     }
+
 }

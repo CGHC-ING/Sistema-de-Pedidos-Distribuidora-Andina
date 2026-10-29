@@ -9,7 +9,7 @@ require_once ('includes/plantilla/header/header.html');
                         <h4>Por favor ingrese su correo y su contraseña para acceder</h4>
                 </div>
                 <div class="card-body">
-                    <form action="">
+                    <form action="usuarios/ingresar" method="post">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Correo:</label>
                             <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp">

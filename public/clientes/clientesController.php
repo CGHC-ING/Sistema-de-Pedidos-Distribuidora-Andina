@@ -4,9 +4,16 @@ require_once __DIR__ . '/clientes.php';
 require_once __DIR__ . '/ciudades.php';
 class clientesController 
 {
+    public function __construct()
+    {
+        if(!isset($_SESSION['user'])){
+            header("Location:/");
+        }
+    }
     public function listado()
     {
         $data = new clientes();
+        $cliActive = "active";
         $clientes = $data->listar();
         require_once __DIR__ . '/vistas/clientesList.php';
     }
